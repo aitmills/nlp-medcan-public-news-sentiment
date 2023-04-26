@@ -140,6 +140,35 @@ for name, result in evaluation_results_smote.items():
     print("\nClassification Report:\n", result['Classification Report'])
     print()
 
+#--
+def create_summary_table(results):
+    summary_data = []
+
+    for name, result in results.items():
+        summary_data.append({
+            'Model': name,
+            'Accuracy': result['Accuracy'],
+            'F1-score': result['F1-score'],
+            'Best Parameters': result['Best Parameters'],
+            'Time': result['Time']
+        })
+
+    summary_df = pd.DataFrame(summary_data)
+    summary_df.sort_values(by='Accuracy', ascending=False, inplace=True)
+    summary_df.reset_index(drop=True, inplace=True)
+    return summary_df
+
+# Create summary tables for both results (without and with SMOTE)
+summary_table_no_smote = create_summary_table(evaluation_results_no_smote)
+summary_table_smote = create_summary_table(evaluation_results_smote)
+
+# Display summary tables
+print("Summary Table (without SMOTE):\n")
+print(summary_table_no_smote)
+print("\nSummary Table (with SMOTE):\n")
+print(summary_table_smote)
+
+#--
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
